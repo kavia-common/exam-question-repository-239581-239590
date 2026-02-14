@@ -9,9 +9,11 @@ export function Card(props: React.HTMLAttributes<HTMLDivElement>) {
     <div
       {...props}
       className={cn(
-        "rounded-2xl border border-black/10 bg-white/70 backdrop-blur",
-        "shadow-[0_1px_0_rgba(0,0,0,0.04)]",
-        "transition-colors motion-reduce:transition-none",
+        // Premium surface: soft border + subtle gradient + blur for “Spotify-like” depth
+        "rounded-2xl border border-black/10",
+        "bg-[linear-gradient(180deg,rgba(255,255,255,0.78),rgba(255,255,255,0.60))] backdrop-blur",
+        "shadow-[var(--shadow-sm)]",
+        "transition-colors duration-200 motion-reduce:transition-none",
         props.className
       )}
     />
@@ -19,7 +21,9 @@ export function Card(props: React.HTMLAttributes<HTMLDivElement>) {
 }
 
 export function SubtleButton(
-  props: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: "primary" | "ghost" | "danger" }
+  props: React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    variant?: "primary" | "ghost" | "danger";
+  }
 ) {
   const variant = props.variant ?? "ghost";
   return (
@@ -27,13 +31,26 @@ export function SubtleButton(
       {...props}
       className={cn(
         "inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm",
-        "transition transform-gpu motion-reduce:transition-none motion-reduce:transform-none",
+        "border",
+        "transition duration-200 transform-gpu motion-reduce:transition-none motion-reduce:transform-none",
         "active:scale-[0.99]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20",
         variant === "primary" &&
-          "bg-black text-white hover:bg-black/90 border border-black/10 shadow-sm",
-        variant === "ghost" && "bg-transparent hover:bg-black/5 border border-black/10",
-        variant === "danger" && "bg-red-600 text-white hover:bg-red-700 border border-red-700/30",
+          [
+            "border-black/10",
+            "bg-black text-white",
+            "hover:bg-black/92",
+            "shadow-sm",
+          ].join(" "),
+        variant === "ghost" &&
+          [
+            "border-black/10",
+            "bg-white/40",
+            "hover:bg-black/5",
+            "backdrop-blur",
+          ].join(" "),
+        variant === "danger" &&
+          "border-red-700/30 bg-red-600 text-white hover:bg-red-700",
         props.disabled && "opacity-50 cursor-not-allowed hover:bg-inherit",
         props.className
       )}
@@ -42,7 +59,10 @@ export function SubtleButton(
 }
 
 export function TextInput(
-  props: React.InputHTMLAttributes<HTMLInputElement> & { label?: string; hint?: string }
+  props: React.InputHTMLAttributes<HTMLInputElement> & {
+    label?: string;
+    hint?: string;
+  }
 ) {
   const { label, hint, id, ...rest } = props;
 
@@ -52,15 +72,20 @@ export function TextInput(
 
   return (
     <label className="block">
-      {label ? <span className="mb-2 block text-sm text-black/70">{label}</span> : null}
+      {label ? (
+        <span className="mb-2 block text-sm text-black/70">{label}</span>
+      ) : null}
       <input
         id={inputId}
         {...rest}
         className={cn(
-          "w-full rounded-xl border border-black/15 bg-white px-3 py-2 text-sm",
+          "w-full rounded-xl border border-black/15",
+          "bg-white/70 backdrop-blur",
+          "px-3 py-2 text-sm",
           "placeholder:text-black/40",
+          "shadow-[0_1px_0_rgba(17,18,20,0.03)]",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20",
-          "transition motion-reduce:transition-none",
+          "transition duration-200 motion-reduce:transition-none",
           props.className
         )}
       />
@@ -70,7 +95,10 @@ export function TextInput(
 }
 
 export function Select(
-  props: React.SelectHTMLAttributes<HTMLSelectElement> & { label?: string; hint?: string }
+  props: React.SelectHTMLAttributes<HTMLSelectElement> & {
+    label?: string;
+    hint?: string;
+  }
 ) {
   const { label, hint, id, children, ...rest } = props;
 
@@ -80,14 +108,19 @@ export function Select(
 
   return (
     <label className="block">
-      {label ? <span className="mb-2 block text-sm text-black/70">{label}</span> : null}
+      {label ? (
+        <span className="mb-2 block text-sm text-black/70">{label}</span>
+      ) : null}
       <select
         id={selectId}
         {...rest}
         className={cn(
-          "w-full rounded-xl border border-black/15 bg-white px-3 py-2 text-sm",
+          "w-full rounded-xl border border-black/15",
+          "bg-white/70 backdrop-blur",
+          "px-3 py-2 text-sm",
+          "shadow-[0_1px_0_rgba(17,18,20,0.03)]",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20",
-          "transition motion-reduce:transition-none",
+          "transition duration-200 motion-reduce:transition-none",
           props.className
         )}
       >
