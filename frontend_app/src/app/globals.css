@@ -1,12 +1,19 @@
 @import "tailwindcss";
 
+/* Global styling foundations:
+   Tailwind utilities handle most component styling, but the UI looks “unstyled”
+   without cohesive base typography rhythm, focus behavior, and calm defaults. */
 :root {
   /* Calm, low-saturation palette (Spotify-like hierarchy, but lighter and study-friendly) */
   --bg: #f7f7f5;
   --surface: rgba(255, 255, 255, 0.72);
+  --surface-solid: #ffffff;
   --text: #111214;
   --muted: rgba(17, 18, 20, 0.62);
   --border: rgba(17, 18, 20, 0.12);
+
+  /* Accent used for focus rings/selection (subtle “Spotify-like” energy, not loud) */
+  --accent: rgba(59, 130, 246, 0.35);
 }
 
 * {
@@ -23,13 +30,72 @@ body {
   color: var(--text);
 }
 
+/* Improve perceived quality of serif typography on modern screens */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   /* UX-3: Times New Roman required typography */
   font-family: "Times New Roman", Times, "Liberation Serif", Georgia, serif;
   text-rendering: optimizeLegibility;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Make focus visible but calm */
+/* Calm defaults for common elements (prevents “raw HTML” look) */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+p {
+  color: var(--muted);
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+/* Make focus visible but calm (do NOT remove outlines globally) */
 :focus-visible {
   outline: none;
+  box-shadow: 0 0 0 3px var(--accent);
+  border-radius: 12px;
+}
+
+/* Better selection color (subtle) */
+::selection {
+  background: rgba(59, 130, 246, 0.18);
+}
+
+/* Inputs/selects/buttons: consistent font */
+input,
+select,
+button,
+textarea {
+  font: inherit;
+}
+
+/* Optional small utility classes for subtle animations */
+@media (prefers-reduced-motion: no-preference) {
+  .calm-pop {
+    animation: calm-pop 220ms ease-out both;
+  }
+  @keyframes calm-pop {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
